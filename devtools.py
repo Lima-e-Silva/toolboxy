@@ -112,5 +112,17 @@ def backup(file: str, output_path: str):
     import shutil
     shutil.copy(file, output_path)
 
+def requirements():
+    """
+    Executa o comando 'pipreqs' para gerar um arquivo 'requirements.txt' com todas as dependências do projeto.
+    
+    Returns
+    -------
+    None
+    """
+    import os
+    filepath = os.getcwd()
+    os.system(f'pipreqs --encoding utf-8 --force {filepath}')
+
 if __name__ == '__main__':
-    pass
+    requirements()
