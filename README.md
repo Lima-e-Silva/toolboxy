@@ -8,6 +8,8 @@
 
  Repositório criado com o intuito de armazenar funções úteis e constantemente reutilizadas, a fim de economizar tempo.
  
+ ![cover](https://github.com/Lima-e-Silva/DevTools/blob/main/Misc/cover.png)
+ 
  </div>
 
 
