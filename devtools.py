@@ -46,29 +46,29 @@ def html2txt(response, output_path: str, exit_command: bool = False):
 
 
 def unique_id():
-  """
-  Gera um identificador único aleatório no formato UUID.
+    """
+    Gera um identificador único aleatório no formato UUID.
 
-  Returns
-  -------
-  unique_id : str
-      O identificador único gerado, no formato "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx".
-  """
+    Retorna
+    -------
+    unique_id : str
+        O identificador único gerado, no formato "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx".
+    """
 
-  import uuid
-  return uuid.uuid4()
+    import uuid
+    return uuid.uuid4()
 
 
 def read_cfg(file: str):
     """
     Lê um arquivo de configuração no formato .cfg e retorna as opções como um dicionário.
 
-    Parameters
+    Parâmetros
     ----------
     file : str
         O nome do arquivo de configuração a ser lido.
 
-    Returns
+    Retorna
     -------
     options : dict
         Um dicionário contendo as opções e seus valores, organizados por seção.
@@ -112,17 +112,109 @@ def backup(file: str, output_path: str):
     import shutil
     shutil.copy(file, output_path)
 
+
+def QRcode(url: str,
+           size: int = 150,
+           color: str = '000000',
+           output: str = 'QRCode'):
+    """
+    Gera um QR code a partir de uma URL e salva-o em um arquivo de imagem.
+    
+    Parâmetros
+    ----------
+    url : str
+        A URL a ser codificada no QR code.
+    size : int, optional
+        O tamanho do QR code em pixels. O padrão é 150.
+    color : str, optional
+        A cor do QR code em formato hexadecimal. O padrão é '000000' (preto).
+    output : str, optional
+        O nome do arquivo de imagem de saída. O padrão é 'QRCode'.
+    
+    Retorna
+    -------
+    None
+    """
+    import requests as r
+
+    img = r.get(
+        f'https://image-charts.com/chart?chs={size}x{size}&cht=qr&choe=UTF-8&icqrf={color}&chl={url}'
+    ).content
+    with open(f'{output}.png', 'wb') as file:
+        file.write(img)
+
+
 def requirements():
     """
     Executa o comando 'pipreqs' para gerar um arquivo 'requirements.txt' com todas as dependências do projeto.
     
-    Returns
+    Retorna
     -------
     None
     """
     import os
     filepath = os.getcwd()
     os.system(f'pipreqs --encoding utf-8 --force {filepath}')
+
+
+def notify(**kwargs):
+    """
+    Exibe uma notificação com os parâmetros especificados.
+
+    Parâmetros
+    ----------
+    id : str, opcional
+        O ID da aplicação que está enviando a notificação.
+    title : str, opcional
+        O título da notificação.
+    message : str, opcional
+        A mensagem da notificação.
+    icon : str, opcional
+        O caminho para o ícone a ser exibido com a notificação.
+    duration : str, opcional
+        A duração da notificação. Valores possíveis: 'long' ou 'short'.
+    link : str, opcional
+        O link a ser aberto quando a notificação for clicada.
+    buttons : dict, opcional
+        Um dicionário com os rótulos e links dos botões a serem exibidos na notificação.
+    sound : bool, opcional
+        Se deve reproduzir um som quando a notificação for exibida.
+    audio_loop : bool, opcional
+        Se o som deve ser reproduzido em loop quando for reproduzido.
+    
+    Retorna
+    -------
+    None
+    """
+
+    from winotify import Notification, audio
+
+    app_id = kwargs.get('id', 'Python')
+    title = kwargs.get('title', 'Title')
+    message = kwargs.get('message', '')
+    icon = kwargs.get('icon', '')
+    duration = kwargs.get('duration', 'long')
+    link = kwargs.get('link', '')
+    buttons = kwargs.get('buttons', '')
+
+    sound = kwargs.get('sound', True)
+    loop = kwargs.get('audio_loop', False)
+
+    Popup = Notification(app_id=app_id,
+                         title=title,
+                         msg=message,
+                         icon=icon,
+                         duration=duration,
+                         launch=link)
+
+    if type(buttons) == dict:
+        for key in buttons:
+            Popup.add_actions(label=key, launch=buttons[key])
+
+    if sound == True: Popup.set_audio(audio.Default, loop=loop)
+
+    Popup.show()
+
 
 if __name__ == '__main__':
     requirements()
