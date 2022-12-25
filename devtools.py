@@ -59,6 +59,31 @@ def unique_id():
     return uuid.uuid4()
 
 
+def create_cfg(file: str, cfg_dict: dict):
+    """
+    Cria um arquivo de configuração baseado em um dicionário de configuração.
+
+    Parâmetros:
+    ----------
+    file (str): O caminho do arquivo a ser criado.
+    cfg_dict (dict): O dicionário contendo as configurações a serem escritas no arquivo de configuração. Deve ser no formato {seção: {opção: valor}}.
+
+    Retorna
+    -------
+    None
+
+    Exemplo:
+    ----------
+    cfg_dict = {'section1': {'option1': 'value1', 'option2': 'value2'}, 'section2': {'option3': 'value3'}}
+    create_cfg('config.cfg', cfg_dict)
+    """
+    with open(file, 'w') as file:
+        for section, options in cfg_dict.items():
+            file.write(f'\n[{section}]\n')
+            for option, value in options.items():
+                file.write(f'{option}={value}\n')
+
+
 def read_cfg(file: str):
     """
     Lê um arquivo de configuração no formato .cfg e retorna as opções como um dicionário.
@@ -214,6 +239,39 @@ def notify(**kwargs):
     if sound == True: Popup.set_audio(audio.Default, loop=loop)
 
     Popup.show()
+
+
+def prof(filename: str, func, *args):
+    """
+    Executa uma função e gera um perfil de desempenho dela.
+    
+    Parâmetros
+    ----------
+    filename : str
+        O nome do arquivo onde o perfil de desempenho será salvo.
+    func : function
+        A função que será executada e perfilada.
+    *args : tuple
+        Os argumentos a serem passados para a função.
+
+    Retorna
+    -------
+    None
+        Não há retorno. O perfil de desempenho é salvo em um arquivo e aberto no visualizador de perfil de desempenho 'snakeviz'.
+    """
+    import snakeviz
+    import cProfile
+    import pstats
+    import os
+
+    with cProfile.Profile() as pr:
+        func(*args)
+
+    stats = pstats.Stats(pr)
+    stats.sort_stats(pstats.SortKey.TIME)
+    stats.dump_stats(filename=f'{filename}.prof')
+
+    os.system(f'snakeviz {filename}.prof')
 
 
 if __name__ == '__main__':
