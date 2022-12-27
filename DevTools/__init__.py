@@ -45,6 +45,32 @@ def html2txt(response, output_path: str, exit_command: bool = False):
     if exit_command == True: exit()
 
 
+#todo docstring
+def verify_proxy(ip: str,
+                 port: str | int,
+                 timeout: int = 5,
+                 verbose: int = 1):
+    import requests as re
+    from loguru import logger as log
+
+    proxy = f'{ip}:{str(port)}'
+    url = 'https://httpbin.org/ip'
+    try:
+        response = re.get('https://httpbin.org/ip',
+                          proxies={
+                              'http': proxy,
+                              'https': proxy
+                          },
+                          timeout=timeout).json()['origin']
+        if response == ip:
+            return True
+        else:
+            return False
+    except Exception as e:
+        if verbose == 1: log.exception(e)
+        return False
+
+
 def unique_id():
     """
     Gera um identificador único aleatório no formato UUID.
