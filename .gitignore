@@ -127,10 +127,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-*.3DA
+
 
 # Pastas
-Teste 1/
-Teste 2/
 
     

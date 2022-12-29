@@ -1,3 +1,6 @@
+# ─── Web Scrapping ────────────────────────────────────────────────────────────
+
+
 def chrome2dict(headers_path: str):
     """
     Esta função converte os cabeçalhos de uma solicitação do Chrome em um dicionário.
@@ -45,11 +48,26 @@ def html2txt(response, output_path: str, exit_command: bool = False):
     if exit_command == True: exit()
 
 
-#todo docstring
-def verify_proxy(ip: str,
-                 port: str | int,
-                 timeout: int = 5,
-                 verbose: int = 1):
+def verify_proxy(ip: str, port: str | int, timeout: int = 5, verbose: int = 1):
+    """
+    Esta função verifica se um determinado endereço IP e porta podem ser usados como proxy.
+
+    Parâmetros
+    ----------
+    ip : str
+        O endereço IP do proxy.
+    port : str ou int
+        A porta do proxy.
+    timeout : int, opcional
+        O tempo de espera máximo para a conexão com o proxy ser estabelecida. O padrão é 5 segundos.
+    verbose : int, opcional
+        Se 1, exibe mensagens de log com informações sobre exceções que ocorreram durante a verificação do proxy. O padrão é 1.
+
+    Retorna
+    -------
+    bool
+        True se o proxy é válido, False caso contrário.
+    """
     import requests as re
     from loguru import logger as log
 
@@ -71,37 +89,55 @@ def verify_proxy(ip: str,
         return False
 
 
-def unique_id():
+# ─── Identificação De Erros ───────────────────────────────────────────────────
+
+
+def debug_function(function, *args, output: str = ""):
     """
-    Gera um identificador único aleatório no formato UUID.
+    Executa uma função com logging de erros.
 
-    Retorna
-    -------
-    unique_id : str
-        O identificador único gerado, no formato "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx".
-    """
-
-    import uuid
-    return uuid.uuid4()
-
-
-def create_cfg(file: str, cfg_dict: dict):
-    """
-    Cria um arquivo de configuração baseado em um dicionário de configuração.
-
-    Parâmetros:
+    Parâmetros
     ----------
-    file (str): O caminho do arquivo a ser criado.
-    cfg_dict (dict): O dicionário contendo as configurações a serem escritas no arquivo de configuração. Deve ser no formato {seção: {opção: valor}}.
+    function : function
+        A função a ser executada.
+    *args : list
+        Os argumentos a serem passados para a função.
+    output : str
+        O nome do arquivo de log. Se não for informado, os erros serão mostrados no console.
 
     Retorna
     -------
     None
+    """
+    from loguru import logger as log
 
-    Exemplo:
+    if output != "":
+        log.add(f'{output}.log', rotation='10 MB')
+
+    @log.catch
+    def f(*args):
+        return function(*args)
+
+    f(*args)
+
+
+# ─── Manipulação De Arquivos ──────────────────────────────────────────────────
+
+
+def create_cfg(file: str, cfg_dict: dict):
+    """
+    Cria um arquivo de configuração a partir de um dicionário.
+
+    Parâmetros
     ----------
-    cfg_dict = {'section1': {'option1': 'value1', 'option2': 'value2'}, 'section2': {'option3': 'value3'}}
-    create_cfg('config.cfg', cfg_dict)
+    file : str
+        O caminho para o arquivo de configuração a ser criado.
+    cfg_dict : dict
+        O dicionário que contém as configurações a serem escritas no arquivo. A chave do dicionário é o nome da seção, e o valor é um dicionário com as opções da seção e seus respectivos valores.
+
+    Retorna
+    -------
+    None
     """
     with open(file, 'w') as file:
         for section, options in cfg_dict.items():
@@ -164,35 +200,216 @@ def backup(file: str, output_path: str):
     shutil.copy(file, output_path)
 
 
-def QRcode(url: str,
-           size: int = 150,
-           color: str = '000000',
-           output: str = 'QRCode'):
+# ─── Ferramentas Git ──────────────────────────────────────────────────────────
+
+
+def MIT_license(name: str, year: str | int = ""):
     """
-    Gera um QR code a partir de uma URL e salva-o em um arquivo de imagem.
-    
+    Cria um arquivo de licença MIT com o nome e ano especificados.
+
     Parâmetros
     ----------
-    url : str
-        A URL a ser codificada no QR code.
-    size : int, optional
-        O tamanho do QR code em pixels. O padrão é 150.
-    color : str, optional
-        A cor do QR code em formato hexadecimal. O padrão é '000000' (preto).
-    output : str, optional
-        O nome do arquivo de imagem de saída. O padrão é 'QRCode'.
-    
+    name : str
+        O nome do titular da licença.
+    year : str | int, opcional
+        O ano da licença. Se não especificado, o ano atual será usado.
+
     Retorna
     -------
     None
     """
-    import requests as r
+    from loguru import logger as log
 
-    img = r.get(
-        f'https://image-charts.com/chart?chs={size}x{size}&cht=qr&choe=UTF-8&icqrf={color}&chl={url}'
-    ).content
-    with open(f'{output}.png', 'wb') as file:
-        file.write(img)
+    if year == "":
+        from datetime import datetime
+        year = datetime.now().year
+
+    license_str = f"""MIT License
+
+Copyright (c) {year} {name}
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+    """
+
+    with open('LICENSE', 'w') as file:
+        file.write(license_str)
+
+
+def git_ignore(folders: list = [], extensions: list = []):
+    """
+    Cria um arquivo .gitignore com as pastas e extensões informadas.
+
+    Parâmetros
+    ----------
+    folders : list
+        Uma lista de pastas que devem ser ignoradas pelo git. O padrão é uma lista vazia.
+    extensions : list
+        Uma lista de extensões de arquivos que devem ser ignoradas pelo git. O padrão é uma lista vazia.
+
+    Retorna
+    -------
+    None
+    """
+    folders_str = ''
+    for folder in folders:
+        folders_str += folder + '/' + '\n'
+
+    extensions_str = ''
+    for extension in extensions:
+        extensions_str += f'*.{extension}\n'
+
+    ignore_str = f"""# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
+#   However, in case of collaboration, if having platform-specific dependencies or dependencies
+#   having no cross-platform support, pipenv may install dependencies that don't work, or not
+#   install all needed dependencies.
+#Pipfile.lock
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+{extensions_str}
+
+# Pastas
+{folders_str}
+    """
+    with open('.gitignore', 'w') as file:
+        file.write(ignore_str)
 
 
 def requirements():
@@ -206,6 +423,9 @@ def requirements():
     import os
     filepath = os.getcwd()
     os.system(f'pipreqs --encoding utf-8 --force {filepath}')
+
+
+# ─── Ferramentas Windows ──────────────────────────────────────────────────────
 
 
 def notify(**kwargs):
@@ -267,6 +487,9 @@ def notify(**kwargs):
     Popup.show()
 
 
+# ─── Otimização ───────────────────────────────────────────────────────────────
+
+
 def prof(filename: str, func, *args):
     """
     Executa uma função e gera um perfil de desempenho dela.
@@ -274,7 +497,7 @@ def prof(filename: str, func, *args):
     Parâmetros
     ----------
     filename : str
-        O nome do arquivo onde o perfil de desempenho será salvo.
+        O nome do arquivo onde o perfil de desempenho será salvo. Ex.: "profiling".
     func : function
         A função que será executada e perfilada.
     *args : tuple
@@ -298,6 +521,54 @@ def prof(filename: str, func, *args):
     stats.dump_stats(filename=f'{filename}.prof')
 
     os.system(f'snakeviz {filename}.prof')
+
+
+# ─── Misc ─────────────────────────────────────────────────────────────────────
+
+
+def unique_id():
+    """
+    Gera um identificador único aleatório no formato UUID.
+
+    Retorna
+    -------
+    unique_id : str
+        O identificador único gerado, no formato "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx".
+    """
+
+    import uuid
+    return uuid.uuid4()
+
+
+def QRcode(url: str,
+           size: int = 150,
+           color: str = '000000',
+           output: str = 'QRCode'):
+    """
+    Gera um QR code a partir de uma URL e salva-o em um arquivo de imagem.
+    
+    Parâmetros
+    ----------
+    url : str
+        A URL a ser codificada no QR code.
+    size : int, optional
+        O tamanho do QR code em pixels. O padrão é 150.
+    color : str, optional
+        A cor do QR code em formato hexadecimal. O padrão é '000000' (preto).
+    output : str, optional
+        O nome do arquivo de imagem de saída. O padrão é 'QRCode'.
+    
+    Retorna
+    -------
+    None
+    """
+    import requests as r
+
+    img = r.get(
+        f'https://image-charts.com/chart?chs={size}x{size}&cht=qr&choe=UTF-8&icqrf={color}&chl={url}'
+    ).content
+    with open(f'{output}.png', 'wb') as file:
+        file.write(img)
 
 
 if __name__ == '__main__':

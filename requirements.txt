@@ -1,4 +1,6 @@
 beautifulsoup4==4.11.1
+loguru==0.6.0
 requests==2.27.1
+setuptools==45.0.0
 snakeviz==2.1.1
 winotify==1.1.0
