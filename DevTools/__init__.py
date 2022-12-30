@@ -22,30 +22,51 @@ def chrome2dict(headers_path: str):
         ] for h in raw_headers.readlines()])
 
 
-def html2txt(response, output_path: str, exit_command: bool = False):
+def html2txt(url: str = '',
+             response='',
+             output_path: str = 'output.txt',
+             exit_flag: bool = False,
+             headers: dict = {},
+             params: dict = {}):
     """
-    Esta função converte uma resposta HTML em texto simples e salva no caminho de saída especificado.
-    
+    Converte o conteúdo HTML de uma URL ou resposta do requests em texto.
+
     Parâmetros
     ----------
-    response : object
-        A resposta HTML a ser convertida.
+    url : str
+        A URL do arquivo HTML a ser convertido. O padrão é uma string vazia.
+    response : str
+        A resposta do requests contendo o conteúdo HTML a ser convertido. O padrão é uma string vazia.
     output_path : str
-        O caminho onde o texto convertido deve ser salvo.
-    exit_command : bool, opcional
-        Uma flag indicando se o programa deve sair depois de escrever a saída. O valor padrão é False.
-        
+        O caminho e nome do arquivo de saída. O padrão é 'output.txt'.
+    exit_flag : bool
+        Se True, encerra o programa após a conversão. O padrão é False.
+    headers : dict
+        As configurações de cabeçalho da requisição. O padrão é um dicionário vazio.
+    params : dict
+        Os parâmetros da requisição. O padrão é um dicionário vazio.
+
     Retorna
     -------
     None
     """
-    from sys import exit
     from bs4 import BeautifulSoup
+
+    if url == '' and response == '':
+        raise AttributeError(
+            "Necessário informar a URL ou a resposta (requests)")
+    elif url != '':
+        import requests as re
+
+        response = re.get(url, headers=headers, params=params)
 
     with open(output_path, 'w', encoding='utf-8') as output:
         output.write(BeautifulSoup(response.text, features='lxml').prettify())
 
-    if exit_command == True: exit()
+    if exit_flag == True:
+        from sys import exit
+
+        exit()
 
 
 def verify_proxy(ip: str, port: str | int, timeout: int = 5, verbose: int = 1):
@@ -92,7 +113,7 @@ def verify_proxy(ip: str, port: str | int, timeout: int = 5, verbose: int = 1):
 # ─── Identificação De Erros ───────────────────────────────────────────────────
 
 
-def debug_function(function, *args, output: str = ""):
+def debug_function(function, output: str = "", *args, **kwargs):
     """
     Executa uma função com logging de erros.
 
@@ -100,10 +121,12 @@ def debug_function(function, *args, output: str = ""):
     ----------
     function : function
         A função a ser executada.
-    *args : list
-        Os argumentos a serem passados para a função.
     output : str
         O nome do arquivo de log. Se não for informado, os erros serão mostrados no console.
+    *args : list
+        Os argumentos a serem passados para a função.
+    **kwargs : dict
+        Os argumentos com palavras-chave a serem passados para a função.
 
     Retorna
     -------
@@ -115,10 +138,10 @@ def debug_function(function, *args, output: str = ""):
         log.add(f'{output}.log', rotation='10 MB')
 
     @log.catch
-    def f(*args):
-        return function(*args)
+    def f(*args, **kwargs):
+        return function(*args, **kwargs)
 
-    f(*args)
+    f(*args, **kwargs)
 
 
 # ─── Manipulação De Arquivos ──────────────────────────────────────────────────
@@ -181,71 +204,112 @@ def read_cfg(file: str):
     return sections_dict
 
 
-def backup(file: str, output_path: str):
+def backup(file: str, output_path: str = '', backup_name: str = ''):
     """
-    Esta função cria uma cópia de segurança do arquivo especificado copiando-o para o caminho de saída especificado.
-    
+    Realiza uma cópia de segurança de um arquivo.
+
     Parâmetros
     ----------
     file : str
         O caminho para o arquivo que será copiado.
     output_path : str
-        O caminho onde a cópia de segurança será salva.
-        
+        O caminho onde a cópia de segurança será salva. O padrão é uma string vazia.
+    backup_name : str
+        O nome da cópia de segurança. Se não for informado, o nome será a data e hora atual.
+
     Retorna
     -------
     None
     """
     import shutil
-    shutil.copy(file, output_path)
+
+    if backup_name == '':
+        from datetime import datetime
+
+        try:
+            extension = file[file.rindex('.'):]
+        except ValueError:
+            extension = ''
+
+        backup_name = datetime.now().strftime("%Y-%m-%d %Hh%M") + extension
+
+    if len(output_path) > 0 and (output_path[-1] != '\\'
+                                 or output_path[-1] != '/'):
+        output_path += '/'
+
+    try:
+        shutil.copy(file, output_path + backup_name)
+    except FileNotFoundError:
+        try:
+            import os
+
+            os.makedirs(output_path)
+        except PermissionError:
+            print(
+                'Caminho informado não existe. Criação de diretório não foi autorizado.\nAjuste a permissão do algoritmo ou crie manualmente a pasta de destino.'
+            )
+    finally:
+        shutil.copy(file, output_path + backup_name)
 
 
 # ─── Ferramentas Git ──────────────────────────────────────────────────────────
 
 
-def MIT_license(name: str, year: str | int = ""):
+def create_env(env_name: str = ".venv"):
     """
-    Cria um arquivo de licença MIT com o nome e ano especificados.
+    Cria um ambiente virtual com o nome informado.
 
     Parâmetros
     ----------
-    name : str
-        O nome do titular da licença.
-    year : str | int, opcional
-        O ano da licença. Se não especificado, o ano atual será usado.
+    env_name : str
+        O nome do ambiente virtual. O padrão é '.venv'.
 
     Retorna
     -------
     None
     """
+    import os
+
+    os.system(f'python -m venv "{env_name}"')
+
+
+def license(license_type: str, name: str, year: str | int = ""):
+    """
+    Gera um arquivo de licença.
+
+    Parâmetros
+    ----------
+    license_type : str
+        O tipo de licença. Opções: 'mit' ou 'mozilla'.
+    name : str
+        O nome do autor da licença.
+    year : str ou int
+        O ano em que a licença foi gerada. O padrão é o ano atual.
+
+    Retorna
+    -------
+    None
+    """
+    import requests as re
+    from bs4 import BeautifulSoup
     from loguru import logger as log
+
+    licenses = {"mit": "mit", "mozilla": "mpl-2.0"}
 
     if year == "":
         from datetime import datetime
         year = datetime.now().year
 
-    license_str = f"""MIT License
-
-Copyright (c) {year} {name}
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-    """
+    try:
+        source = BeautifulSoup(re.get(
+            f'https://choosealicense.com/licenses/{licenses[f"{license_type.lower()}"]}/'
+        ).text,
+                               features="lxml")
+        license_str = source.find('pre').text
+        license_str = license_str.replace('[fullname]', name)
+        license_str = license_str.replace('[year]', str(year))
+    except Exception as e:
+        log.error(e)
 
     with open('LICENSE', 'w') as file:
         file.write(license_str)
