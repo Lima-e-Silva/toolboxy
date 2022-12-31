@@ -1,27 +1,41 @@
 # ─── Web Scrapping ────────────────────────────────────────────────────────────
 
-
-def chrome2dict(headers_path: str):
+#note: Atualizar README.md
+def chrome2dict(headers_path: str = "", headers_str: str = ""):
     """
-    Esta função converte os cabeçalhos de uma solicitação do Chrome em um dicionário.
-    
+    Esta função converte os cabeçalhos de uma solicitação do Chrome (em string ou salvos em arquivos) em um dicionário.
+
     Parâmetros
     ----------
     headers_path : str
-        O caminho para o arquivo que contém os cabeçalhos a serem convertidos.
-        
+        O caminho para o arquivo de cabeçalhos. O padrão é uma string vazia.
+    headers_str : str
+        A string contendo os cabeçalhos. O padrão é uma string vazia.
+
     Retorna
     -------
     dict
-        Um dicionário contendo os cabeçalhos da solicitação do Chrome.
+        O dicionário contendo os cabeçalhos.
     """
-    with open(headers_path, 'r') as raw_headers:
+    if headers_path == "" and headers_str == "":
+        raise AttributeError(
+            "Necessário informar o caminho do arquivo com cabeçalho ou a própria string do cabeçalho"
+        )
+
+    elif headers_path != "":
+        with open(headers_path, 'r') as raw_headers:
+            return dict([[
+                h.strip('\n').partition(': ')[0],
+                h.strip('\n').partition(': ')[2]
+            ] for h in raw_headers.readlines()])
+
+    else:
         return dict([[
-            h.strip('\n').partition(': ')[0],
-            h.strip('\n').partition(': ')[2]
-        ] for h in raw_headers.readlines()])
+            h.partition(': ')[0],
+            h.partition(': ')[2]
+        ] for h in headers_str.split('\n')])
 
-
+#note: Atualizar README.md
 def html2txt(url: str = '',
              response='',
              output_path: str = 'output.txt',
@@ -93,7 +107,6 @@ def verify_proxy(ip: str, port: str | int, timeout: int = 5, verbose: int = 1):
     from loguru import logger as log
 
     proxy = f'{ip}:{str(port)}'
-    url = 'https://httpbin.org/ip'
     try:
         response = re.get('https://httpbin.org/ip',
                           proxies={
@@ -149,7 +162,7 @@ def debug_function(function, output: str = "", *args, **kwargs):
 
 def create_cfg(file: str, cfg_dict: dict):
     """
-    Cria um arquivo de configuração a partir de um dicionário.
+    Cria um arquivo de configuração a partir de um dicionário. Obs.: os nomes das opções devem ser minúsculos.
 
     Parâmetros
     ----------
@@ -251,6 +264,47 @@ def backup(file: str, output_path: str = '', backup_name: str = ''):
     finally:
         shutil.copy(file, output_path + backup_name)
 
+#note: Incluir no README.md
+def check_hash(*files):
+    """
+    Verifica a integridade de vários arquivos comparando seus hashes, ou retorna o hash caso um único arquivo seja informado.
+
+    Parâmetros
+    ----------
+    *files : list
+        O caminho para os arquivos a serem verificados.
+
+    Retorna
+    -------
+    bool (caso mais de um arquivo tiver sido fornecido)
+        Se a verificação foi realizada com sucesso.
+    str (caso um único arquivo foi fornecido)
+        O hash do arquivo informado.
+    """
+    import hashlib
+
+    if len(files) > 1:
+        for file in files:
+            with open(file, 'rb') as f:
+                h = hashlib.sha256()
+                h.update(f.read())
+                try:
+                    if hash == h.digest():
+                        continue
+                    else:
+                        return False
+                except UnboundLocalError:
+                    hash = h.digest()
+                    continue
+        return True
+
+    else:
+        with open(files[0], 'rb') as f:
+            h = hashlib.sha256()
+            h.update(f.read())
+            hash = h.hexdigest()
+            return hash
+
 
 # ─── Ferramentas Git ──────────────────────────────────────────────────────────
 
@@ -330,150 +384,20 @@ def git_ignore(folders: list = [], extensions: list = []):
     -------
     None
     """
-    folders_str = ''
+    import requests as re
+
+    folders_str = '\n'
     for folder in folders:
         folders_str += folder + '/' + '\n'
 
-    extensions_str = ''
+    extensions_str = '\n'
     for extension in extensions:
         extensions_str += f'*.{extension}\n'
 
-    ignore_str = f"""# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+    ignore_str = re.get('https://raw.githubusercontent.com/github/gitignore/main/Python.gitignore').text
 
-# C extensions
-*.so
-
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-pip-wheel-metadata/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
-
-# Translations
-*.mo
-*.pot
-
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
-
-# Flask stuff:
-instance/
-.webassets-cache
-
-# Scrapy stuff:
-.scrapy
-
-# Sphinx documentation
-docs/_build/
-
-# PyBuilder
-target/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# IPython
-profile_default/
-ipython_config.py
-
-# pyenv
-.python-version
-
-# pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
-#   install all needed dependencies.
-#Pipfile.lock
-
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow
-__pypackages__/
-
-# Celery stuff
-celerybeat-schedule
-celerybeat.pid
-
-# SageMath parsed files
-*.sage.py
-
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Pyre type checker
-.pyre/
-{extensions_str}
-
-# Pastas
-{folders_str}
-    """
     with open('.gitignore', 'w') as file:
-        file.write(ignore_str)
+        file.write(ignore_str+folders_str+extensions_str)
 
 
 def requirements():
@@ -554,7 +478,7 @@ def notify(**kwargs):
 # ─── Otimização ───────────────────────────────────────────────────────────────
 
 
-def prof(filename: str, func, *args):
+def prof(filename: str, func, *args, **kwargs):
     """
     Executa uma função e gera um perfil de desempenho dela.
     
@@ -566,6 +490,8 @@ def prof(filename: str, func, *args):
         A função que será executada e perfilada.
     *args : tuple
         Os argumentos a serem passados para a função.
+    **kwargs : dict
+        Os argumentos com palavras-chave a serem passados para a função.
 
     Retorna
     -------
@@ -578,7 +504,7 @@ def prof(filename: str, func, *args):
     import os
 
     with cProfile.Profile() as pr:
-        func(*args)
+        func(*args,**kwargs)
 
     stats = pstats.Stats(pr)
     stats.sort_stats(pstats.SortKey.TIME)
@@ -589,7 +515,7 @@ def prof(filename: str, func, *args):
 
 # ─── Misc ─────────────────────────────────────────────────────────────────────
 
-
+#note: incluir no README.md
 def unique_id():
     """
     Gera um identificador único aleatório no formato UUID.
