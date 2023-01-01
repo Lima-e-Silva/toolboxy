@@ -3,6 +3,24 @@
 #note: Atualizar README.md
 def chrome2dict(headers_path: str = "", headers_str: str = ""):
     """
+    English:
+    ----------
+    This function converts Chrome request headers (in string or saved in files) into a dictionary.
+
+    Parameters
+    ----------
+    headers_path : str
+        The path to the headers file. The default is an empty string.
+    headers_str : str
+        The string containing the headers. The default is an empty string.
+
+    Returns
+    -------
+    dict
+        The dictionary containing the headers.
+
+    Português (brasileiro):
+    ----------
     Esta função converte os cabeçalhos de uma solicitação do Chrome (em string ou salvos em arquivos) em um dicionário.
 
     Parâmetros
@@ -43,6 +61,31 @@ def html2txt(url: str = '',
              headers: dict = {},
              params: dict = {}):
     """
+    English:
+    ----------
+    Converts the HTML content of a URL or requests response into text.
+
+    Parameters
+    ----------
+    url : str
+        The URL of the HTML file to be converted. The default is an empty string.
+    response : str
+        The requests response containing the HTML content to be converted. The default is an empty string.
+    output_path : str
+        The path and name of the output file. The default is 'output.txt'.
+    exit_flag : bool
+        If True, ends the program after conversion. The default is False.
+    headers : dict
+        The header settings of the request. The default is an empty dictionary.
+    params : dict
+        The parameters of the request. The default is an empty dictionary.
+
+    Returns
+    -------
+    None
+
+    Português (brasileiro):
+    ----------
     Converte o conteúdo HTML de uma URL ou resposta do requests em texto.
 
     Parâmetros
@@ -85,6 +128,28 @@ def html2txt(url: str = '',
 
 def verify_proxy(ip: str, port: str | int, timeout: int = 5, verbose: int = 1):
     """
+    English:
+    ----------
+    This function checks if a given IP address and port can be used as a proxy.
+
+    Parameters
+    ----------
+    ip : str
+        The IP address of the proxy.
+    port : str or int
+        The port of the proxy.
+    timeout : int, optional
+        The maximum wait time for the connection to the proxy to be established. The default is 5 seconds.
+    verbose : int, optional
+        If 1, displays log messages with information about exceptions that occurred during proxy check. The default is 1.
+
+    Returns
+    -------
+    bool
+        True if the proxy is valid, False otherwise.
+
+    Português (brasileiro):
+    ----------
     Esta função verifica se um determinado endereço IP e porta podem ser usados como proxy.
 
     Parâmetros
@@ -128,6 +193,27 @@ def verify_proxy(ip: str, port: str | int, timeout: int = 5, verbose: int = 1):
 
 def debug_function(function, output: str = "", *args, **kwargs):
     """
+    English:
+    ----------
+    Executes a function with error logging.
+
+    Parameters
+    ----------
+    function : function
+        The function to be executed.
+    output : str
+        The name of the log file. If not provided, errors will be displayed in the console.
+    *args : list
+        The arguments to be passed to the function.
+    **kwargs : dict
+        The keyword arguments to be passed to the function.
+
+    Returns
+    -------
+    None
+
+    Português (brasileiro):
+    ----------
     Executa uma função com logging de erros.
 
     Parâmetros
@@ -162,6 +248,23 @@ def debug_function(function, output: str = "", *args, **kwargs):
 
 def create_cfg(file: str, cfg_dict: dict):
     """
+    English:
+    ----------
+    Creates a configuration file from a dictionary. Note: the names of the options must be lowercase.
+
+    Parameters
+    ----------
+    file : str
+        The path to the configuration file to be created.
+    cfg_dict : dict
+        The dictionary containing the settings to be written to the file. The key of the dictionary is the name of the section, and the value is a dictionary with the options of the section and their respective values.
+
+    Returns
+    -------
+    None
+
+    Português (brasileiro):
+    ----------
     Cria um arquivo de configuração a partir de um dicionário. Obs.: os nomes das opções devem ser minúsculos.
 
     Parâmetros
@@ -184,6 +287,22 @@ def create_cfg(file: str, cfg_dict: dict):
 
 def read_cfg(file: str):
     """
+    English:
+    ----------
+    Reads a .cfg configuration file and returns the options as a dictionary.
+
+    Parameters
+    ----------
+    file : str
+        The name of the configuration file to be read.
+
+    Returns
+    -------
+    options : dict
+        A dictionary containing the options and their values, organized by section.
+
+    Português (brasileiro):
+    ----------
     Lê um arquivo de configuração no formato .cfg e retorna as opções como um dicionário.
 
     Parâmetros
@@ -219,6 +338,25 @@ def read_cfg(file: str):
 
 def backup(file: str, output_path: str = '', backup_name: str = ''):
     """
+    English:
+    ----------
+    Makes a backup of a file.
+
+    Parameters
+    ----------
+    file : str
+        The path to the file that will be copied.
+    output_path : str
+        The path where the backup will be saved. The default is an empty string.
+    backup_name : str
+        The name of the backup. If not provided, the name will be the current date and time.
+
+    Returns
+    -------
+    None
+
+    Português (brasileiro):
+    ----------
     Realiza uma cópia de segurança de um arquivo.
 
     Parâmetros
@@ -267,6 +405,24 @@ def backup(file: str, output_path: str = '', backup_name: str = ''):
 #note: Incluir no README.md
 def check_hash(*files):
     """
+    English:
+    ----------
+    Checks the integrity of multiple files by comparing their hashes, or returns the hash if a single file is provided.
+
+    Parameters
+    ----------
+    *files : list
+        The path to the files to be checked.
+
+    Returns
+    -------
+    bool (if more than one file was provided)
+        If the check was successful.
+    str (if a single file was provided)
+        The hash of the provided file.
+
+    Português (brasileiro):
+    ----------
     Verifica a integridade de vários arquivos comparando seus hashes, ou retorna o hash caso um único arquivo seja informado.
 
     Parâmetros
@@ -311,6 +467,21 @@ def check_hash(*files):
 
 def create_env(env_name: str = ".venv"):
     """
+    English:
+    ----------
+    Creates a virtual environment with the given name.
+
+    Parameters
+    ----------
+    env_name : str
+        The name of the virtual environment. The default is '.venv'.
+
+    Returns
+    -------
+    None
+
+    Português (brasileiro):
+    ----------
     Cria um ambiente virtual com o nome informado.
 
     Parâmetros
@@ -329,6 +500,25 @@ def create_env(env_name: str = ".venv"):
 
 def license(license_type: str, name: str, year: str | int = ""):
     """
+    English:
+    ----------
+    Generates a license file.
+
+    Parameters
+    ----------
+    license_type : str
+        The type of license. Options: 'mit' or 'mozilla'.
+    name : str
+        The name of the license author.
+    year : str or int
+        The year in which the license was generated. The default is the current year.
+
+    Returns
+    -------
+    None
+
+    Português (brasileiro):
+    ----------
     Gera um arquivo de licença.
 
     Parâmetros
@@ -371,6 +561,23 @@ def license(license_type: str, name: str, year: str | int = ""):
 
 def git_ignore(folders: list = [], extensions: list = []):
     """
+    English:
+    ----------
+    Creates a .gitignore file with the specified folders and extensions.
+
+    Parameters
+    ----------
+    folders : list
+        A list of folders that should be ignored by git. The default is an empty list.
+    extensions : list
+        A list of file extensions that should be ignored by git. The default is an empty list.
+
+    Returns
+    -------
+    None
+
+    Português (brasileiro):
+    ----------
     Cria um arquivo .gitignore com as pastas e extensões informadas.
 
     Parâmetros
@@ -402,8 +609,18 @@ def git_ignore(folders: list = [], extensions: list = []):
 
 def requirements():
     """
+    English:
+    ----------
+    Runs the 'pipreqs' command to generate a 'requirements.txt' file with all project dependencies.
+
+    Returns
+    -------
+    None
+
+    Português (brasileiro):
+    ----------
     Executa o comando 'pipreqs' para gerar um arquivo 'requirements.txt' com todas as dependências do projeto.
-    
+
     Retorna
     -------
     None
@@ -418,6 +635,37 @@ def requirements():
 
 def notify(**kwargs):
     """
+    English:
+    ----------
+    Displays a notification with the specified parameters.
+
+    Parameters
+    ----------
+    id : str, optional
+        The ID of the application sending the notification.
+    title : str, optional
+        The title of the notification.
+    message : str, optional
+        The message of the notification.
+    icon : str, optional
+        The path to the icon to be displayed with the notification.
+    duration : str, optional
+        The duration of the notification. Possible values: 'long' or 'short'.
+    link : str, optional
+        The link to be opened when the notification is clicked.
+    buttons : dict, optional
+        A dictionary with the labels and links of the buttons to be displayed in the notification.
+    sound : bool, optional
+        If a sound should be played when the notification is displayed.
+    audio_loop : bool, optional
+        If the sound should be played in a loop when it is played.
+
+    Returns
+    -------
+    None
+
+    Português (brasileiro):
+    ----------
     Exibe uma notificação com os parâmetros especificados.
 
     Parâmetros
@@ -480,8 +728,30 @@ def notify(**kwargs):
 
 def prof(filename: str, func, *args, **kwargs):
     """
+    English:
+    ----------
+    Runs a function and generates a performance profile of it.
+
+    Parameters
+    ----------
+    filename : str
+        The name of the file where the performance profile will be saved. Ex.: "profiling".
+    func : function
+        The function that will be executed and profiled.
+    *args : tuple
+        The arguments to be passed to the function.
+    **kwargs : dict
+        The keyword arguments to be passed to the function.
+
+    Returns
+    -------
+    None
+        There is no return. The performance profile is saved to a file and opened in the 'snakeviz' performance profile viewer.
+
+    Português (brasileiro):
+    ----------
     Executa uma função e gera um perfil de desempenho dela.
-    
+
     Parâmetros
     ----------
     filename : str
@@ -535,19 +805,40 @@ def QRcode(url: str,
            color: str = '000000',
            output: str = 'QRCode'):
     """
+    English:
+    ----------
+    Generates a QR code from a URL and saves it to an image file.
+
+    Parameters
+    ----------
+    url : str
+        The URL to be encoded in the QR code.
+    size : int, optional
+        The size of the QR code in pixels. The default is 150.
+    color : str, optional
+        The color of the QR code in hexadecimal format. The default is '000000' (black).
+    output : str, optional
+        The name of the output image file. The default is 'QRCode'.
+
+    Returns
+    -------
+    None
+
+    Português (brasileiro):
+    ----------
     Gera um QR code a partir de uma URL e salva-o em um arquivo de imagem.
-    
+
     Parâmetros
     ----------
     url : str
         A URL a ser codificada no QR code.
-    size : int, optional
+    size : int, opcional
         O tamanho do QR code em pixels. O padrão é 150.
-    color : str, optional
+    color : str, opcional
         A cor do QR code em formato hexadecimal. O padrão é '000000' (preto).
-    output : str, optional
+    output : str, opcional
         O nome do arquivo de imagem de saída. O padrão é 'QRCode'.
-    
+
     Retorna
     -------
     None
