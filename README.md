@@ -47,7 +47,7 @@ The functionality is diverse, some examples of code use are listed below. Feel f
 
 To install, simply open the terminal and enter the following command:
 ```cmd
-pip --upgrade https://github.com/Lima-e-Silva/DevTools.git
+pip install --upgrade git+https://github.com/Lima-e-Silva/DevTools.git
 ```
 
 <div align='right'>

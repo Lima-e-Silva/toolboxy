@@ -47,7 +47,7 @@ As funcionalidades são diversas, alguns exemplos de uso do código estão lista
 
 Para instalar, basta abrir o terminal e inserir o seguinte comando:
  ```cmd
- pip --upgrade https://github.com/Lima-e-Silva/DevTools.git
+ pip install --upgrade git+https://github.com/Lima-e-Silva/DevTools.git
  ```
  
  <div align='right'>
