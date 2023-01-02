@@ -1,6 +1,6 @@
 # ─── Web Scrapping ────────────────────────────────────────────────────────────
 
-#note: Atualizar README.md
+
 def chrome2dict(headers_path: str = "", headers_str: str = ""):
     """
     English:
@@ -53,7 +53,7 @@ def chrome2dict(headers_path: str = "", headers_str: str = ""):
             h.partition(': ')[2]
         ] for h in headers_str.split('\n')])
 
-#note: Atualizar README.md
+
 def html2txt(url: str = '',
              response='',
              output_path: str = 'output.txt',
@@ -402,7 +402,7 @@ def backup(file: str, output_path: str = '', backup_name: str = ''):
     finally:
         shutil.copy(file, output_path + backup_name)
 
-#note: Incluir no README.md
+
 def check_hash(*files):
     """
     English:
@@ -461,7 +461,7 @@ def check_hash(*files):
             hash = h.hexdigest()
             return hash
 
-
+#todo: Testes
 # ─── Ferramentas Git ──────────────────────────────────────────────────────────
 
 
@@ -626,10 +626,12 @@ def requirements():
     None
     """
     import os
+    import pipreqs
+    
     filepath = os.getcwd()
     os.system(f'pipreqs --encoding utf-8 --force {filepath}')
 
-
+#todo: Testes
 # ─── Ferramentas Windows ──────────────────────────────────────────────────────
 
 
@@ -723,6 +725,51 @@ def notify(**kwargs):
     Popup.show()
 
 
+def shutdown(time: int | str, message: str = ''):
+    """
+    English:
+    ----------
+    Shutdowns the computer. The user can specify the time until the shutdown (in seconds) and a message to be displayed.
+
+    Parameters
+    ----------
+    time: int or str
+        The time until the shutdown, in seconds.
+    message: str, optional
+        A message to be displayed. Defaults to an empty string.
+
+    Returns
+    -------
+    None
+
+    Português (brasileiro):
+    ----------
+    Desliga o computador. O usuário pode especificar o tempo até o desligamento (em segundos) e uma mensagem a ser exibida.
+
+    Parâmetros
+    ----------
+    time: int ou str
+        O tempo até o desligamento, em segundos.
+    message: str, optional
+        Uma mensagem a ser exibida. Padrão é uma string vazia.
+
+    Retorna
+    -------
+    None
+    """
+    import subprocess
+
+    command = f'shutdown -s -t {time}'
+    if message != "":
+        command += f' -c "{message}"'
+
+    subprocess.run(command,
+                   shell=True,
+                   check=True,
+                   stdout=subprocess.PIPE,
+                   stderr=subprocess.PIPE)
+
+
 # ─── Otimização ───────────────────────────────────────────────────────────────
 
 
@@ -785,7 +832,7 @@ def prof(filename: str, func, *args, **kwargs):
 
 # ─── Misc ─────────────────────────────────────────────────────────────────────
 
-#note: incluir no README.md
+
 def unique_id(length: int,
               letters: bool = True,
               numbers: bool = True,
@@ -919,7 +966,7 @@ def QRcode(url: str,
 #todo: Testes
 # ─── APIs ─────────────────────────────────────────────────────────────────────
 
-#note: incluir no README.md
+
 def smartphone_notify(topic: str,
                       message: str,
                       title: str,
@@ -959,7 +1006,8 @@ def smartphone_notify(topic: str,
 
     Returns
     -------
-    None
+    bool
+        True if notification was successful, False in other case.
 
     Português (brasileiro):
     ----------
@@ -990,7 +1038,8 @@ def smartphone_notify(topic: str,
 
     Retorna
     -------
-    None
+    bool
+        True se a notificação foi submetida com sucesso, False caso contrário.
     """
     import requests as re
     import json
@@ -1010,7 +1059,49 @@ def smartphone_notify(topic: str,
 
     response = re.post('https://ntfy.sh/',data=json.dumps(data))
     if response.status_code != 200:
-        print(f'Erro ao enviar notificação.\n{response.reason}')
+        return False
+
+    return True
+
+
+def short_url(url: str):
+    """
+    English:
+    ----------
+    Shortens a URL.
+
+    Parameters
+    ----------
+    url: str
+        The URL to be shortened.
+
+    Returns
+    -------
+    short_url: str
+        The shortened URL.
+
+    Português (brasileiro):
+    ----------
+    Encurta uma URL.
+
+    Parâmetros
+    ----------
+    url: str
+        A URL a ser encurtada.
+
+    Retorna
+    -------
+    short_url: str
+        A URL encurtada.
+    """
+    import requests as re
+
+    response = re.post('https://gotiny.cc/api', json={'input': url})
+
+    if response.status_code != 200:
+        return False
+
+    return f"https://gotiny.cc/{response.json()[0]['code']}"
 
 if __name__ == '__main__':
     requirements()
