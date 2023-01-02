@@ -2,6 +2,6 @@ beautifulsoup4==4.11.1
 loguru==0.6.0
 pipreqs==0.4.11
 requests==2.27.1
-setuptools==45.0.0
+setuptools==65.6.3
 snakeviz==2.1.1
 winotify==1.1.0
