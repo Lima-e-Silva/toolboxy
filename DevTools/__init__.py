@@ -786,18 +786,83 @@ def prof(filename: str, func, *args, **kwargs):
 # ─── Misc ─────────────────────────────────────────────────────────────────────
 
 #note: incluir no README.md
-def unique_id():
+def unique_id(length: int,
+              letters: bool = True,
+              numbers: bool = True,
+              upper_case: bool = True,
+              lower_case: bool = True,
+              blocks: int = 1,
+              separator: str = '-'):
     """
-    Gera um identificador único aleatório no formato UUID.
+    English:
+    ----------
+    Generates a unique id string. The id is composed of randomly generated characters, which can be letters or numbers (or both). The user can specify the length of each block of characters, the number of blocks, and the separator to be used between them.
+
+    Parameters
+    ----------
+    length: int
+        The number of characters in each block.
+    letters: bool, optional
+        Whether to include letters in the id string. Defaults to True.
+    numbers: bool, optional
+        Whether to include numbers in the id string. Defaults to True.
+    upper_case: bool, optional
+        Whether to include upper-case letters in the id string. Defaults to True.
+    lower_case: bool, optional
+        Whether to include lower-case letters in the id string. Defaults to True.
+    blocks: int, optional
+        The number of blocks of characters in the id string. Defaults to 1.
+    separator: str, optional
+        The separator to be used between blocks. Defaults to '-'.
+
+    Returns
+    -------
+    uid: str
+        The unique id string.
+
+    Português (brasileiro):
+    ----------
+    Gera uma string de identificação única. A id é composta por caracteres gerados aleatoriamente, que podem ser letras ou números (ou ambos). O usuário pode especificar o tamanho de cada bloco de caracteres, o número de blocos e o separador a ser usado entre eles.
+
+    Parâmetros
+    ----------
+    length: int
+        O número de caracteres em cada bloco.
+    letters: bool, optional
+        Se deve incluir letras na string de id. Padrão é True.
+    numbers: bool, optional
+        Se deve incluir números na string de id. Padrão é True.
+    upper_case: bool, optional
+        Se deve incluir letras maiúsculas na string de id. Padrão é True.
+    lower_case: bool, optional
+        Se deve incluir letras minúsculas na string de id. Padrão é True.
+    blocks: int, optional
+        O número de blocos de caracteres na string de id. Padrão é 1.
+    separator: str, optional
+        O separador a ser usado entre os blocos. Padrão é '-'.
 
     Retorna
     -------
-    unique_id : str
-        O identificador único gerado, no formato "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx".
+    uid: str
+        A string de identificação única.
     """
+    from random import sample
 
-    import uuid
-    return uuid.uuid4()
+    letters_str = 'abcdefghijklmnopqrstuvwxyz'
+    numbers_str = '0123456789'
+    possibilities = ''
+    uid = list()
+
+    if letters:
+        if lower_case: possibilities += letters_str
+        if upper_case: possibilities += letters_str.upper()
+    if numbers: possibilities += numbers_str
+
+    for n in range(blocks):
+        result = ''.join(sample(possibilities, length))
+        uid.append(result)
+
+    return separator.join(uid)
 
 
 def QRcode(url: str,
@@ -851,6 +916,101 @@ def QRcode(url: str,
     with open(f'{output}.png', 'wb') as file:
         file.write(img)
 
+#todo: Testes
+# ─── APIs ─────────────────────────────────────────────────────────────────────
+
+#note: incluir no README.md
+def smartphone_notify(topic: str,
+                      message: str,
+                      title: str,
+                      tags: list = [],
+                      priority: int = 3,
+                      attach: str = '',
+                      filename: str = '',
+                      click: str = '',
+                      actions: list = [],
+                      email:str=''):
+    """English:
+    ----------
+    Sends a notification to a smartphone. The user can specify the topic, message, title, and tags of the notification, as well as the priority, attachment, filename, and click action. The user can also specify a list of actions to be included in the notification.
+
+    Parameters
+    ----------
+    topic: str
+        The topic of the notification.
+    message: str
+        The message of the notification.
+    title: str
+        The title of the notification.
+    tags: list, optional
+        A list of tags to be included in the notification. Defaults to an empty list.
+    priority: int, optional
+        The priority of the notification. Defaults to 3.
+    attach: str, optional
+        The attachment of the notification. Defaults to an empty string.
+    filename: str, optional
+        The filename of the attachment. Defaults to an empty string.
+    click: str, optional
+        The click action of the notification. Defaults to an empty string.
+    actions: list, optional
+        A list of actions to be included in the notification. Defaults to an empty list.
+    email: str, optional
+        The email of the user to whom the notification will be sent. Defaults to an empty string.
+
+    Returns
+    -------
+    None
+
+    Português (brasileiro):
+    ----------
+    Envia uma notificação para um smartphone. O usuário pode especificar o tópico, a mensagem, o título e as tags da notificação, assim como a prioridade, o anexo, o nome do arquivo e a ação de clique. O usuário também pode especificar uma lista de ações a serem incluídas na notificação.
+
+    Parâmetros
+    ----------
+    topic: str
+        O tópico da notificação.
+    message: str
+        A mensagem da notificação.
+    title: str
+        O título da notificação.
+    tags: list, optional
+        Uma lista de tags a serem incluídas na notificação. Padrão é uma lista vazia.
+    priority: int, optional
+        A prioridade da notificação. Padrão é 3.
+    attach: str, optional
+        O anexo da notificação. Padrão é uma string vazia.
+    filename: str, optional
+        O nome do arquivo do anexo. Padrão é uma string vazia.
+    click: str, optional
+        A ação de clique da notificação. Padrão é uma string vazia.
+    actions: list, optional
+        Uma lista de ações a serem incluídas na notificação. Padrão é uma lista vazia.
+    email: str, optional
+        O email do usuário a quem a notificação será enviada. Padrão é uma string vazia.
+
+    Retorna
+    -------
+    None
+    """
+    import requests as re
+    import json
+
+    data = {
+        'topic': topic,
+        'message': message,
+        'title': title,
+        'tags': tags,
+        'priority': priority,
+        'attach': attach,
+        'filename': filename,
+        'click': click,
+        'actions': actions,
+        'email' : email
+    }
+
+    response = re.post('https://ntfy.sh/',data=json.dumps(data))
+    if response.status_code != 200:
+        print(f'Erro ao enviar notificação.\n{response.reason}')
 
 if __name__ == '__main__':
     requirements()
