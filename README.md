@@ -5,6 +5,7 @@
 ![Status](https://img.shields.io/badge/status-active-yellowgreen?style=for-the-badge)
 ![Version](https://img.shields.io/badge/version-0.1.0-blue?style=for-the-badge)
 [![PythonVersion](https://img.shields.io/badge/python-3.10-blue?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/downloads/)
+![Maintainability](https://img.shields.io/codeclimate/maintainability/Lima-e-Silva/DevTools?logo=codeclimate&style=for-the-badge)
 
 <p align="justify">
 This repository is a collection of tools for developers. The goal is to offer a variety of resources that are constantly used, in order to accelerate the workflow. It is a way to quickly and easily access relevant solutions for development.
