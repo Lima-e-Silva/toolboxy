@@ -48,7 +48,7 @@ As funcionalidades são diversas, alguns exemplos de uso do código estão lista
 
 Para instalar, basta abrir o terminal e inserir o seguinte comando:
  ```cmd
- pip install --upgrade git+https://github.com/Lima-e-Silva/toolboxy.git
+ pip install toolboxy
  ```
  
  <div align='right'>

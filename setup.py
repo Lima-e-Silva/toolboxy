@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 NAME = 'toolboxy'
-VERSION = '0.1.0'
+VERSION = '0.1.1'
 AUTHOR = 'Lima & Silva'
 EMAIL = 'luizpaulo@protonmail.com'
 DESCRIPTION = 'This repository is a collection of tools for developers to easily access relevant solutions for development in order to accelerate their workflow. It provides a variety of resources that are constantly used.'
@@ -9,6 +9,7 @@ DESCRIPTION = 'This repository is a collection of tools for developers to easily
 setup(
     name=NAME,
     version=VERSION,
+    url='https://github.com/Lima-e-Silva/toolboxy',
     author=AUTHOR,
     author_email=EMAIL,
     description=DESCRIPTION,
