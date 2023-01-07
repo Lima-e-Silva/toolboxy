@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-NAME = 'DevTools'
+NAME = 'toolboxy'
 VERSION = '0.1.0'
 AUTHOR = 'Lima & Silva'
 EMAIL = 'luizpaulo@protonmail.com'
@@ -16,9 +16,9 @@ setup(
     long_description=open('README.md').read(),
     packages=find_packages(),
     install_requires=['beautifulsoup4', 'loguru', 'pipreqs', 'requests', 'setuptools', 'snakeviz', 'winotify'],
-    keywords=['python', 'tools', 'programming'],
+    keywords=['python', 'tools', 'programming', 'devs'],
     classifiers=[
-        "Development Status :: 1 - Planning",
+        "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
         "Programming Language :: Python :: 3",
         "Operating System :: Microsoft :: Windows",

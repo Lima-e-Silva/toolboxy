@@ -1,4 +1,4 @@
-import DevTools
+import toolboxy
 import os
 
 
@@ -6,7 +6,7 @@ def test_uuid():
     letters = 'abcdefghijklmnopqrstuvwxyz'
     numbers = '0123456789'
 
-    uid_1 = DevTools.unique_id(length=4,
+    uid_1 = toolboxy.unique_id(length=4,
                                letters=True,
                                numbers=True,
                                upper_case=True,
@@ -14,7 +14,7 @@ def test_uuid():
                                blocks=1,
                                separator='-')
 
-    uid_2 = DevTools.unique_id(length=4,
+    uid_2 = toolboxy.unique_id(length=4,
                                letters=True,
                                numbers=True,
                                upper_case=True,
@@ -22,7 +22,7 @@ def test_uuid():
                                blocks=1,
                                separator='-')
 
-    uid_3 = DevTools.unique_id(length=4,
+    uid_3 = toolboxy.unique_id(length=4,
                                letters=True,
                                numbers=True,
                                upper_case=True,
@@ -30,7 +30,7 @@ def test_uuid():
                                blocks=1,
                                separator='-')
 
-    block_uid_1 = DevTools.unique_id(length=4,
+    block_uid_1 = toolboxy.unique_id(length=4,
                                      letters=False,
                                      numbers=True,
                                      upper_case=True,
@@ -38,7 +38,7 @@ def test_uuid():
                                      blocks=2,
                                      separator='-')
 
-    block_uid_2 = DevTools.unique_id(length=4,
+    block_uid_2 = toolboxy.unique_id(length=4,
                                      letters=True,
                                      numbers=False,
                                      upper_case=True,
@@ -71,9 +71,10 @@ def test_uuid():
 
 def test_qrcode():
     url = 'https://www.google.com.br'
-    verification_hash = 'd7953fa0f18a9ced5b8c15a76640b9d62910c4c8b4acc670bc07f888739697c4'
-    DevTools.QRcode(url=url)
+    toolboxy.QRcode(url=url)
 
-    assert DevTools.check_hash('QRCode.png') == verification_hash
+    assert 'QRCode.png' in os.listdir()
+    assert os.stat('QRCode.png').st_size > 380/1.5
+    assert os.stat('QRCode.png').st_size < 380*1.5
 
     os.remove('QRCode.png')

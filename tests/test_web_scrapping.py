@@ -1,6 +1,8 @@
 import os
+
 import requests as re
-import DevTools
+
+import toolboxy
 
 headers_str = """accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
 accept-encoding: gzip, deflate, br
@@ -17,8 +19,8 @@ def test_chrome2dict():
     with open('tests/headers', 'w') as f:
         f.write(headers_str)
 
-    headers_from_str = DevTools.chrome2dict(headers_str=headers_str)
-    headers_from_file = DevTools.chrome2dict(headers_path='tests/headers')
+    headers_from_str = toolboxy.chrome2dict(headers_str=headers_str)
+    headers_from_file = toolboxy.chrome2dict(headers_path='tests/headers')
 
     assert headers_from_str == headers_from_file
     assert headers_from_str['sec-fetch-dest'] == 'image'
@@ -32,7 +34,7 @@ def test_chrome2dict():
 
 def test_html2txt():
     response = re.get('https://api.my-ip.io/ip')
-    DevTools.html2txt(response=response, output_path='tests/re.txt')
+    toolboxy.html2txt(response=response, output_path='tests/re.txt')
     with open('tests/re.txt', 'r') as f:
         response_file = f.read()
         assert response.text in response_file

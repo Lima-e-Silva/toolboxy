@@ -1,11 +1,11 @@
 <div align="left">
 
-# DevTools
+# toolboxy
 
 ![Status](https://img.shields.io/badge/status-active-yellowgreen?style=for-the-badge)
 ![Version](https://img.shields.io/badge/version-0.1.0-blue?style=for-the-badge)
 [![PythonVersion](https://img.shields.io/badge/python-3.10-blue?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/downloads/)
-![Maintainability](https://img.shields.io/codeclimate/maintainability/Lima-e-Silva/DevTools?logo=codeclimate&style=for-the-badge)
+![Maintainability](https://img.shields.io/codeclimate/maintainability/Lima-e-Silva/toolboxy?logo=codeclimate&style=for-the-badge)
 
 <p align="justify">
 This repository is a collection of tools for developers. The goal is to offer a variety of resources that are constantly used, in order to accelerate the workflow. It is a way to quickly and easily access relevant solutions for development.
@@ -15,7 +15,7 @@ This repository is a collection of tools for developers. The goal is to offer a 
 The functionality is diverse, some examples of code use are listed below. Feel free to suggest new functionality or directly contribute to the development of this repository.
 </p>
 
-![cover](https://github.com/Lima-e-Silva/DevTools/blob/main/Misc/cover.png)
+![cover](https://github.com/Lima-e-Silva/toolboxy/blob/main/Misc/cover.png)
 
 </div>
 
@@ -25,9 +25,9 @@ The functionality is diverse, some examples of code use are listed below. Feel f
    The repository, as well as the docstrings of the functions, were developed with support for English and Brazilian Portuguese in order to facilitate access to functionality.
 </p>
 
-- [English Readme](https://github.com/Lima-e-Silva/DevTools/blob/main/README.md)
+- [English Readme](https://github.com/Lima-e-Silva/toolboxy/blob/main/README.md)
 
-- [Português-br Readme](https://github.com/Lima-e-Silva/DevTools/blob/main/README.pt-br.md)
+- [Português-br Readme](https://github.com/Lima-e-Silva/toolboxy/blob/main/README.pt-br.md)
 
 ## Table of Contents
 
@@ -48,7 +48,7 @@ The functionality is diverse, some examples of code use are listed below. Feel f
 
 To install, simply open the terminal and enter the following command:
 ```cmd
-pip install --upgrade git+https://github.com/Lima-e-Silva/DevTools.git
+pip install --upgrade git+https://github.com/Lima-e-Silva/toolboxy.git
 ```
 
 <div align='right'>
@@ -64,7 +64,7 @@ pip install --upgrade git+https://github.com/Lima-e-Silva/DevTools.git
  <summary>Convert header to Python dictionary</summary>
  
  ```python
-import DevTools
+import toolboxy
 
 headers = """sec-ch-ua-platform: "Windows"
 sec-fetch-dest: document
@@ -72,7 +72,7 @@ sec-fetch-mode: navigate
 sec-fetch-site: same-origin
 user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36"""
 
-headers_dict = DevTools.chrome2dict(headers_str=headers)
+headers_dict = toolboxy.chrome2dict(headers_str=headers)
 ```
 
 </details>
@@ -81,11 +81,11 @@ headers_dict = DevTools.chrome2dict(headers_str=headers)
  <summary>Save source code in text file</summary>
  
  ```python
-import DevTools
+import toolboxy
 
-url = 'https://raw.githubusercontent.com/Lima-e-Silva/DevTools/main/README.md'
+url = 'https://raw.githubusercontent.com/Lima-e-Silva/toolboxy/main/README.md'
 
-DevTools.html2txt(url=url, output_path='Github-DevTools.txt')
+toolboxy.html2txt(url=url, output_path='Github-toolboxy.txt')
  ```
  </details>
 
@@ -93,13 +93,13 @@ DevTools.html2txt(url=url, output_path='Github-DevTools.txt')
  <summary>Check if a given IP address and port can be used as a proxy</summary>
  
  ```python
- import DevTools
+ import toolboxy
  
  # IP addresses and respective ports can be found here: "https://free-proxy-list.net"
  ip = '80.252.5.34'
  port = '7001'
  
- if DevTools.verify_proxy(ip=ip, port=port):
+ if toolboxy.verify_proxy(ip=ip, port=port):
     print('IP and port are functional!')
   ```
  </details>
@@ -116,13 +116,13 @@ DevTools.html2txt(url=url, output_path='Github-DevTools.txt')
  <summary>Run a function with error logging</summary>
  
  ```python
- import DevTools
+ import toolboxy
  
  # Function that is experiencing errors
  def foo(a,b):
     return a/b
  
- DevTools.debug_function(foo, a=1, b=0, output='logfile')
+ toolboxy.debug_function(foo, a=1, b=0, output='logfile')
 ```
 </details>
 
@@ -138,7 +138,7 @@ DevTools.html2txt(url=url, output_path='Github-DevTools.txt')
  <summary>Create configuration file (cfg)</summary>
  
  ```python
- import DevTools
+ import toolboxy
  
  config_dict = {
     'section': {
@@ -147,7 +147,7 @@ DevTools.html2txt(url=url, output_path='Github-DevTools.txt')
     }
  }
  
- DevTools.create_cfg(file='config.cfg', cfg_dict=config_dict)
+ toolboxy.create_cfg(file='config.cfg', cfg_dict=config_dict)
  ```
  </details>
 
@@ -155,9 +155,9 @@ DevTools.html2txt(url=url, output_path='Github-DevTools.txt')
  <summary>Read a configuration file (cfg)</summary>
  
  ```python
- import DevTools
+ import toolboxy
  
- config_dict = DevTools.read_cfg(file='config.cfg')
+ config_dict = toolboxy.read_cfg(file='config.cfg')
 
  ```
  </details>
@@ -166,9 +166,9 @@ DevTools.html2txt(url=url, output_path='Github-DevTools.txt')
  <summary>Create file backup</summary>
  
  ```python
-import DevTools
+import toolboxy
 
-DevTools.backup(file='important_file.txt',
+toolboxy.backup(file='important_file.txt',
                 output_path='backups/security_copies')
 ```
 </details>
@@ -177,12 +177,12 @@ DevTools.backup(file='important_file.txt',
  <summary>Verify file integrity or get hashes</summary>
  
  ```python
- import DevTools
+ import toolboxy
 
-if DevTools.check_hash('file.txt', 'backup.txt'):
+if toolboxy.check_hash('file.txt', 'backup.txt'):
     print('Integrity Verified')
 
-file_hash = DevTools.check_hash('file.txt')
+file_hash = toolboxy.check_hash('file.txt')
 ```
 </details>
 
@@ -199,9 +199,9 @@ file_hash = DevTools.check_hash('file.txt')
  <summary>Create a virtual environment</summary>
  
  ```python
- import DevTools
+ import toolboxy
 
-DevTools.create_env()
+toolboxy.create_env()
 ```
 </details>
 
@@ -209,9 +209,9 @@ DevTools.create_env()
  <summary>Create a license file</summary>
  
  ```python
- import DevTools
+ import toolboxy
 
-DevTools.license(license_type='MIT', name='Luiz Paulo Lima e Silva')
+toolboxy.license(license_type='MIT', name='Luiz Paulo Lima e Silva')
 
  ```
  </details>
@@ -220,9 +220,9 @@ DevTools.license(license_type='MIT', name='Luiz Paulo Lima e Silva')
  <summary>Generate a .gitignore file based on a standard template</summary>
  
  ```python
- import DevTools
+ import toolboxy
 
-DevTools.git_ignore(folders=['personal-folder'], extensions=['xlsx', 'pdf'])
+toolboxy.git_ignore(folders=['personal-folder'], extensions=['xlsx', 'pdf'])
 ```
  </details>
 
@@ -230,9 +230,9 @@ DevTools.git_ignore(folders=['personal-folder'], extensions=['xlsx', 'pdf'])
  <summary>Create requirements.txt</summary>
  
  ```python
- import DevTools
+ import toolboxy
 
-DevTools.requirements()
+toolboxy.requirements()
  ```
  </details>
 
@@ -248,13 +248,13 @@ DevTools.requirements()
  <summary>Create Windows notification</summary>
  
  ```python
- import DevTools
+ import toolboxy
 
-DevTools.notify(
-    id='DevTools',
+toolboxy.notify(
+    id='toolboxy',
     title='Demonstration',
     message='This notification is merely a demonstration',
-    buttons={'Open link': 'https://github.com/Lima-e-Silva/DevTools/'},
+    buttons={'Open link': 'https://github.com/Lima-e-Silva/toolboxy/'},
     sound=True,
     audio_loop=False)
 ```
@@ -264,9 +264,9 @@ DevTools.notify(
  <summary>Schedule computer shutdown</summary>
  
  ```python
-import DevTools
+import toolboxy
 
-DevTools.shutdown(time=3600, message="Time to sleep Zzz...")
+toolboxy.shutdown(time=3600, message="Time to sleep Zzz...")
 ```
 </details>
 
@@ -282,13 +282,13 @@ DevTools.shutdown(time=3600, message="Time to sleep Zzz...")
  <summary>Generate function performance profile</summary>
  
  ```python
- import DevTools
+ import toolboxy
 
 def foo(x, y=3):
     for n in range(x):
         print(n**y)
 
-DevTools.prof('output', foo, 100, y=2)
+toolboxy.prof('output', foo, 100, y=2)
 ```
 </details>
 
@@ -304,9 +304,9 @@ DevTools.prof('output', foo, 100, y=2)
  <summary>Generates a unique identification string</summary>
  
  ```python
-import DevTools
+import toolboxy
 
-id = DevTools.unique_id(length=6,
+id = toolboxy.unique_id(length=6,
                         letters=True,
                         numbers=True,
                         lower_case=False,
@@ -320,9 +320,9 @@ id = DevTools.unique_id(length=6,
  <summary>Generate QR Code for a link</summary>
  
  ```python
- import DevTools
+ import toolboxy
 
-DevTools.QRcode(url='https://github.com/Lima-e-Silva/DevTools/',
+toolboxy.QRcode(url='https://github.com/Lima-e-Silva/toolboxy/',
                 size=150,
                 output='My QR Code')
 
@@ -341,11 +341,11 @@ DevTools.QRcode(url='https://github.com/Lima-e-Silva/DevTools/',
  <summary>Create push notification (mobile)</summary>
  
  ```python
- import DevTools
+ import toolboxy
 
 TOPIC = 'notifications'  # More information here: https://ntfy.sh
 
-DevTools.smartphone_notify(topic=TOPIC,
+toolboxy.smartphone_notify(topic=TOPIC,
                            message='This is a demonstration notification',
                            title='Test Notification')
 ```
@@ -355,11 +355,11 @@ DevTools.smartphone_notify(topic=TOPIC,
  <summary>Shorten URL</summary>
  
  ```python
- import DevTools
+ import toolboxy
 
 url = 'https://www.google.com.br'
 
-if short:= DevTools.short_url(url):
+if short:= toolboxy.short_url(url):
     print(short)
 
 # Example Output: https://gotiny.cc/xr4cs6
