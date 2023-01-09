@@ -2,10 +2,11 @@
 
 # toolboxy
 
-![Status](https://img.shields.io/badge/status-ativo-yellowgreen?style=for-the-badge)
-![Version](https://img.shields.io/badge/versão-0.1.0-blue?style=for-the-badge)
-[![PythonVersion](https://img.shields.io/badge/python-3.10-blue?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/downloads/)
-![Maintainability](https://img.shields.io/codeclimate/maintainability/Lima-e-Silva/toolboxy?logo=codeclimate&style=for-the-badge)
+![Status](https://img.shields.io/badge/status-active-brightgree)
+![Maintainability](https://img.shields.io/codeclimate/maintainability/Lima-e-Silva/toolboxy?logo=codeclimate)
+[![PythonVersion](https://img.shields.io/pypi/pyversions/toolboxy)](https://www.python.org/downloads/)
+[![Version](https://img.shields.io/pypi/v/toolboxy)](https://pypi.org/project/toolboxy/)
+[![Downloads](https://static.pepy.tech/badge/toolboxy)](https://pepy.tech/project/toolboxy)
 
 <p align="justify">
 Este repositório trata-se de um agrupador de ferramentas para desenvolvedores. O objetivo é oferecer uma variedade de recursos que são constantemente utilizados, de modo a acelerar o fluxo de trabalho. É uma forma de acessar soluções pertinentes para o desenvolvimento de forma rápida e simples.
@@ -15,7 +16,7 @@ Este repositório trata-se de um agrupador de ferramentas para desenvolvedores. 
 As funcionalidades são diversas, alguns exemplos de uso do código estão listados abaixo. Sinta-se a vontade para sugerir novas funcionalidades ou contribuir diretamente com o desenvolvimento desse do repositório.
 </p>
 
-![cover](https://github.com/Lima-e-Silva/toolboxy/blob/main/Misc/cover.png)
+![cover](https://github.com/Lima-e-Silva/toolboxy/blob/main/misc/cover.png)
 
 </div>
 
@@ -294,6 +295,41 @@ toolboxy.prof('output', foo, 100, y=2)
 
  ```
  </details>
+ 
+ <details>
+ <summary>Calcular o tempo decorrido durante a execução de uma função</summary>
+ 
+ ```python
+ import toolboxy
+
+def foo(n):
+    values = list()
+    for i in range(n):
+        for _ in range(i):
+            values.append(i)
+    print(values)
+
+print(toolboxy.elapsed_clocktime(foo, 100))
+
+```
+</details>
+
+<details>
+ <summary>Exibir o tempo de processamento (tempo de CPU) decorrido durante a execução de uma função</summary>
+ 
+ ```python
+ import toolboxy
+
+def foo(n):
+    values = list()
+    for i in range(n):
+        for _ in range(i):
+            values.append(i)
+    print(values)
+
+toolboxy.elapsed_cputime(foo, 100)
+```
+</details>
  
   <div align='right'>
  

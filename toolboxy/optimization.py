@@ -47,10 +47,100 @@ def prof(filename: str, func, *args, **kwargs):
     import snakeviz
 
     with cProfile.Profile() as pr:
-        func(*args,**kwargs)
+        func(*args, **kwargs)
 
     stats = pstats.Stats(pr)
     stats.sort_stats(pstats.SortKey.TIME)
     stats.dump_stats(filename=f'{filename}.prof')
 
     os.system(f'snakeviz {filename}.prof')
+
+
+def elapsed_clocktime(func, *args, **kwargs):
+    """
+    English:
+    ----------
+    Calculates the elapsed time between the start and end of the execution of a function.
+
+    Parameters
+    ----------
+    func: function
+        The function to be executed.
+    *args: tuple
+        Positional arguments to be passed to the function.
+    **kwargs: dict
+        Keyword arguments to be passed to the function.
+
+    Returns
+    -------
+    elapsed_time: datetime.timedelta
+        The elapsed time between the start and end of the function execution.
+
+    Português (brasileiro):
+    ----------
+    Calcula o tempo decorrido entre o início e o fim da execução de uma função.
+
+    Parâmetros
+    ----------
+    func: function
+        A função a ser executada.
+    *args: tuple
+        Argumentos posicionais a serem passados para a função.
+    **kwargs: dict
+        Argumentos de palavra-chave a serem passados para a função.
+
+    Retorna
+    -------
+    elapsed_time: datetime.timedelta
+        O tempo decorrido entre o início e o fim da execução da função.
+    """
+    from datetime import datetime
+
+    start = datetime.now()
+    func(*args, **kwargs)
+    end = datetime.now()
+
+    return end - start
+
+
+def elapsed_cputime(func, *args, **kwargs):
+    """
+    English:
+    ----------
+    Display elapsed CPU time between the start and end of the execution of a function.
+
+    Parameters
+    ----------
+    func: function
+        The function to be executed.
+    *args: tuple
+        Positional arguments to be passed to the function.
+    **kwargs: dict
+        Keyword arguments to be passed to the function.
+
+    Returns
+    -------
+    None
+
+    Português (brasileiro):
+    ----------
+    Exibe o tempo de CPU decorrido entre o início e o fim da execução de uma função.
+
+    Parâmetros
+    ----------
+    func: function
+        A função a ser executada.
+    *args: tuple
+        Argumentos posicionais a serem passados para a função.
+    **kwargs: dict
+        Argumentos de palavra-chave a serem passados para a função.
+
+    Retorna
+    -------
+    None
+    """
+    import cProfile
+
+    with cProfile.Profile() as pr:
+        pr.runcall(func, *args, **kwargs)
+        pr.print_stats()

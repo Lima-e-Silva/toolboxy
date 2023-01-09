@@ -10,9 +10,9 @@ setup(
     name=NAME,
     version=VERSION,
     url='https://github.com/Lima-e-Silva/toolboxy',
+    description=DESCRIPTION,
     author=AUTHOR,
     author_email=EMAIL,
-    description=DESCRIPTION,
     long_description_content_type="text/markdown",
     long_description=open('README.md').read(),
     packages=find_packages(),
@@ -20,8 +20,19 @@ setup(
     keywords=['python', 'tools', 'programming', 'devs'],
     classifiers=[
         "Development Status :: 3 - Alpha",
+        #"Development Status :: 4 - Beta",
+        #"Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
-        "Programming Language :: Python :: 3",
+
+        'Topic :: Software Development :: Libraries',
+        'Topic :: Software Development :: Libraries :: Python Modules',
+
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+
         "Operating System :: Microsoft :: Windows",
     ]
 )
