@@ -14,7 +14,8 @@ permissions:
   contents: read
 
 jobs:
-  deploy:
+  update-package:
+    environment: .venv
 
     runs-on: ubuntu-latest
 
