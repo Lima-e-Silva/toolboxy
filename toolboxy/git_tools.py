@@ -163,4 +163,4 @@ def requirements():
     import pipreqs
 
     filepath = os.getcwd()
-    os.system(f'pipreqs --encoding utf-8 --force {filepath}')
+    os.system(f'pipreqs --encoding utf-8 --force "{filepath}"')
