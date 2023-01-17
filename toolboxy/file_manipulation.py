@@ -154,47 +154,58 @@ def backup(file: str, output_path: str = '', backup_name: str = ''):
     finally:
         shutil.copy(file, output_path + backup_name)
 
-
-def check_hash(*files):
+# Todo: Docstrings
+def check_hash(*files, sha: int = 1):
     """
     English:
     ----------
-    Checks the integrity of multiple files by comparing their hashes, or returns the hash if a single file is provided.
+    Checks the hash of one or more files.
 
     Parameters
     ----------
-    *files : list
-        The path to the files to be checked.
+    files : str
+        File or files to be checked.
+    sha : int
+        Hash algorithm.
 
     Returns
     -------
-    bool (if more than one file was provided)
-        If the check was successful.
-    str (if a single file was provided)
-        The hash of the provided file.
+    bool
+        True if the hash is the same for all files.
+    str
+        Hash of the file.
 
     Português (brasileiro):
     ----------
-    Verifica a integridade de vários arquivos comparando seus hashes, ou retorna o hash caso um único arquivo seja informado.
+    Verifica o hash de um ou mais arquivos.
 
     Parâmetros
     ----------
-    *files : list
-        O caminho para os arquivos a serem verificados.
+    files : str
+        Arquivo ou arquivos a serem verificados.
+    sha : int
+        Algoritmo de hash.
 
     Retorna
     -------
-    bool (caso mais de um arquivo tiver sido fornecido)
-        Se a verificação foi realizada com sucesso.
-    str (caso um único arquivo foi fornecido)
-        O hash do arquivo informado.
+    bool
+        True se o hash for o mesmo para todos os arquivos.
+    str
+        Hash do arquivo.
     """
     import hashlib
+
+    hashers = {
+        1: hashlib.sha1,
+        224: hashlib.sha224,
+        256: hashlib.sha256,
+        384: hashlib.sha384
+    }
 
     if len(files) > 1:
         for file in files:
             with open(file, 'rb') as f:
-                hasher = hashlib.sha256()
+                hasher = hashers[sha]()
                 hasher.update(f.read())
                 try:
                     if hash == hasher.digest():
@@ -208,7 +219,7 @@ def check_hash(*files):
 
     else:
         with open(files[0], 'rb') as f:
-            hasher = hashlib.sha256()
+            hasher = hashers[sha]()
             hasher.update(f.read())
             hash = hasher.hexdigest()
             return hash
