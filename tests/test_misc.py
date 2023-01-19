@@ -2,6 +2,16 @@ import toolboxy
 import os
 
 
+def test_delay_print(capsys):
+    toolboxy.delay_print('test_delay_print_n1')
+    captured = capsys.readouterr()
+    assert captured.out == 'test_delay_print_n1\n'
+
+    toolboxy.delay_print('test_delay_print_n2')
+    captured = capsys.readouterr()
+    assert captured.out == 'test_delay_print_n2\n'
+
+
 def test_uuid():
     letters = 'abcdefghijklmnopqrstuvwxyz'
     numbers = '0123456789'
