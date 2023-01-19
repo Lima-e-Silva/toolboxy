@@ -80,7 +80,9 @@ def unique_id(length: int,
 def QRcode(url: str,
            size: int = 150,
            color: str = '000000',
-           output: str = 'QRCode'):
+           bg_color: str = 'ffffff',
+           output: str = 'QRCode',
+           format: str = 'png'):
     """
     English:
     ----------
@@ -94,8 +96,12 @@ def QRcode(url: str,
         The size of the QR code in pixels. The default is 150.
     color : str, optional
         The color of the QR code in hexadecimal format. The default is '000000' (black).
+    bg_color : str, optional
+        The background color of the QR code in hexadecimal format. The default is 'ffffff' (white).
     output : str, optional
         The name of the output image file. The default is 'QRCode'.
+    format : str, optional
+        The format of the output image file (png or svg). The default is 'png'.
 
     Returns
     -------
@@ -113,8 +119,12 @@ def QRcode(url: str,
         O tamanho do QR code em pixels. O padrão é 150.
     color : str, opcional
         A cor do QR code em formato hexadecimal. O padrão é '000000' (preto).
+    bg_color : str, opcional
+        A cor do background do QR code em formato hexadecimal. O padrão é 'ffffff' (branco).
     output : str, opcional
         O nome do arquivo de imagem de saída. O padrão é 'QRCode'.
+    format : str, opcional
+        O formato do arquivo de saída (png ou svg). O padrão é 'png'.
 
     Retorna
     -------
@@ -123,7 +133,7 @@ def QRcode(url: str,
     import requests as r
 
     img = r.get(
-        f'https://image-charts.com/chart?chs={size}x{size}&cht=qr&choe=UTF-8&icqrf={color}&chl={url}'
+        f'https://image-charts.com/chart?chs={size}x{size}&cht=qr&choe=UTF-8&icqrf={color}&icqrb={bg_color}&chl={url}'
     ).content
-    with open(f'{output}.png', 'wb') as file:
+    with open(f'{output}.{format}', 'wb') as file:
         file.write(img)
