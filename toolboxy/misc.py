@@ -1,10 +1,57 @@
+# To do: Readme
+def delay_print(string: str, wpm=180) -> None:
+    """
+    English
+    --------
+    Prints a string with a delay.
+
+    Parameters
+    ----------
+    string : str
+        The string to be printed.
+    wpm : int, optional
+        The word per minute speed. The default is 180.
+    
+    Returns
+    -------
+    None.
+
+    Português (brasileiro)
+    -------
+    Imprime uma string com um delay.
+
+    Parâmetros
+    ----------
+    string : str
+        A string a ser impressa.
+    wpm : int, optional
+        A velocidade de impressão em palavras por minuto. O padrão é 180.
+    
+    Retorna
+    -------
+    None.
+    """
+    import sys
+    import time
+
+    words_count = len(string.split())
+    total_time = (words_count / wpm) * 60
+    letter_time = total_time / len(string)
+    for letter in string:
+        sys.stdout.write(letter)
+        sys.stdout.flush()
+        time.sleep(letter_time)
+
+    print('')
+
+
 def unique_id(length: int,
               letters: bool = True,
               numbers: bool = True,
               upper_case: bool = True,
               lower_case: bool = True,
               blocks: int = 1,
-              separator: str = '-'):
+              separator: str = '-') -> str:
     """
     English:
     ----------
@@ -80,7 +127,7 @@ def unique_id(length: int,
 def QRcode(url: str,
            size: int = 150,
            color: str = '000000',
-           output: str = 'QRCode'):
+           output: str = 'QRCode') -> None:
     """
     English:
     ----------
