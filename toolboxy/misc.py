@@ -1,4 +1,3 @@
-# To do: Readme
 def delay_print(string: str, wpm=180) -> None:
     """
     English
@@ -43,6 +42,106 @@ def delay_print(string: str, wpm=180) -> None:
         time.sleep(letter_time)
 
     print('')
+
+
+def gpt_docstring(func,
+                  api_key: str = "",
+                  max_tokens: int = 500,
+                  show_cost: bool = False):
+    """
+    English:
+    ----------
+    Generates a docstring for the given function and copy to the clipboard.
+
+    Parameters
+    ----------
+    func: function
+        Function to generate the docstring.
+    api_key: str, optional
+        OpenAI API key.
+    max_tokens: int, optional
+        Maximum number of tokens to generate.
+    show_cost: bool, optional
+        Show the cost of the request.
+
+    Returns
+    -------
+    docstring: str
+        The generated docstring.
+
+    Português (brasileiro):
+    ----------
+    Gera uma docstring para a função informada e a copia para a área de transferência.
+
+    Parâmetros
+    ----------
+    func: function
+        Função para gerar a docstring.
+    api_key: str, opcional
+        Chave da API do OpenAI.
+    max_tokens: int, opcional
+        Número máximo de tokens para gerar.
+    show_cost: bool, opcional
+        Mostra o custo da requisição.
+
+    Retorna
+    -------
+    docstring: str
+        A docstring gerada.
+    """
+    import inspect
+    import openai
+    import pyperclip
+
+    if api_key == "":
+        from dotenv import load_dotenv
+        import os
+
+        load_dotenv()
+        api_key = os.environ.get('OPENAI_API_KEY')
+
+    code = inspect.getsource(func)
+    prompt = f"""
+Crie docstrings em inglês e português semelhante ao exemplo abaixo, para a função informada. Seja sucinto.
+
+\"""
+English:
+----------
+Runs the 'pipreqs' command to generate a 'requirements.txt' file with dependencies.
+
+Returns
+-------
+None
+
+Português (brasileiro):
+----------
+Executa o comando 'pipreqs' para gerar um arquivo 'requirements.txt' com as dependências.
+
+Retorna
+-------
+None
+\"""
+
+Função:
+{code}
+    """
+    openai.api_key = api_key
+    response = openai.Completion.create(
+        model='text-davinci-003',
+        prompt=prompt,
+        max_tokens=max_tokens,
+        temperature=0.1,
+    )
+    docstring = response['choices'][0]['text']
+    pyperclip.copy(docstring)
+
+    if show_cost:
+        from loguru import logger as log
+
+        cost = f"${round((response['usage']['total_tokens'] / 1000) * 0.02,4)}"
+        log.success(f'[Cost]: {cost}')
+
+    return docstring
 
 
 def unique_id(length: int,

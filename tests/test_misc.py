@@ -2,6 +2,10 @@ import toolboxy
 import os
 
 
+def useless_function():
+    print('This is a useless function')
+
+
 def test_delay_print(capsys):
     toolboxy.delay_print('test_delay_print_n1')
     captured = capsys.readouterr()
@@ -10,6 +14,13 @@ def test_delay_print(capsys):
     toolboxy.delay_print('test_delay_print_n2')
     captured = capsys.readouterr()
     assert captured.out == 'test_delay_print_n2\n'
+
+
+def test_gpt_docstring():
+    response = toolboxy.gpt_docstring(useless_function)
+    assert response
+    assert 'Português (brasileiro)' in response
+    assert 'English' in response
 
 
 def test_uuid():

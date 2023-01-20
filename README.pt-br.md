@@ -339,6 +339,54 @@ toolboxy.elapsed_cputime(foo, 100)
   
  ### Diversos
  
+  <details>
+ <summary>Exibe strings no console com atraso (como se estivesse digitando)</summary>
+ 
+ ```python
+import toolboxy
+
+toolboxy.delay_print('Olá Mundo!')
+```
+</details>
+
+ <details>
+ <summary>Gera uma docstring (conforme padrão do repositório) para uma função</summary>
+ 
+ ```python
+import toolboxy
+
+
+def minha_função():
+    print("Essa é minha função")
+
+
+print(toolboxy.gpt_docstring(minha_função,api_key="SUA_CHAVE_API"))
+
+# Saída:
+# """
+# English:
+# ----------
+# Prints a string to the console.
+#
+# Returns
+# -------
+# None
+#
+# Português (brasileiro):
+# ----------
+# Imprime uma string no console.
+#
+# Retorna
+# -------
+# None
+# """
+
+# Você também pode armazenar sua chave api em um arquivo .env e então chamar a função sem especificar a chave.
+# Exemplo:
+# toolboxy.gpt_docstring(minha_função)
+```
+</details>
+ 
  <details>
  <summary>Gera uma string de identificação única</summary>
  
@@ -422,11 +470,14 @@ Em razão da própria natureza do repositório, muitas das funções implementad
 |:--------------:|:-------:|
 | [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/) |   [MIT](https://www.crummy.com/software/BeautifulSoup/)   |
 | [loguru](https://github.com/Delgan/loguru) | [MIT](https://github.com/Delgan/loguru/blob/master/LICENSE) |
+| [openai](https://github.com/openai/openai-python) | [MIT](https://github.com/openai/openai-python/blob/main/LICENSE) |
 | [ntfy](https://github.com/binwiederhier/ntfy) | [Apache 2.0](https://github.com/binwiederhier/ntfy/blob/main/LICENSE) - [GPL 2.0](https://github.com/binwiederhier/ntfy/blob/main/LICENSE.GPLv2) |
 | [pipreqs](https://github.com/bndr/pipreqs) | [Apache 2.0](https://github.com/bndr/pipreqs/blob/master/LICENSE) |
+| [pyperclip](https://github.com/asweigart/pyperclip) | [BSD-3-Clause](https://github.com/asweigart/pyperclip/blob/master/LICENSE.txt) |
+| [python-dotenv](https://github.com/theskumar/python-dotenv) | [BSD-3-Clause](https://github.com/theskumar/python-dotenv/blob/main/LICENSE) |
 | [requests](https://github.com/psf/requests) | [Apache 2.0](https://github.com/psf/requests/blob/main/LICENSE) |
 | [setuptools](https://github.com/pypa/setuptools) | [MIT](https://github.com/pypa/setuptools/blob/main/LICENSE) |
-| [snakeviz](https://github.com/jiffyclub/snakeviz) | [Licença](https://github.com/jiffyclub/snakeviz/blob/master/LICENSE.txt) |
+| [snakeviz](https://github.com/jiffyclub/snakeviz) | [License](https://github.com/jiffyclub/snakeviz/blob/master/LICENSE.txt) |
 | [winotify](https://github.com/versa-syahptr/winotify) | [MIT](https://github.com/versa-syahptr/winotify/blob/master/LICENSE) |
 
 
